@@ -4,119 +4,56 @@ using System.Collections;
 namespace Keyword_Recoginition_Using_Hash_Table
 {
     class Program
-    { 
-      // Keyword Recoginition using hashtable
-      // Submitted by: Komal Shehzadi (2016-CS-178)
-      
+    {
+        // Keyword Recoginition using hashtable
+        // Submitted by: Komal Shehzadi (2016-CS-178)
+        // shared resources
+        // hashtable used throughout the program
+        static private Hashtable table = new Hashtable();
+        // main method
         static void Main(string[] args)
         {
-            while (true)
+            // function to start the execution
+            start();
+        }
+        // function to check the input string in hashtable and returns true with keynumber in case of keyword
+        // otherwise false
+        static bool CheckKeyword(string str, ref string keynumber)
+        {
+            bool iskeyword = false;
+            // Get a collection of the keys.
+            ICollection keysintable = table.Keys;
+            
+            foreach (string k in keysintable)
             {
-                Boolean flag = false;
-                string strInput;
-                Hashtable keyWords = new Hashtable();
-                //Storing keywords in hash table
-                keyWords.Add("01", "abstract");
-                keyWords.Add("02", "as");
-                keyWords.Add("03", "base");
-                keyWords.Add("04", "bool");
-                keyWords.Add("05", "break");
-                keyWords.Add("06", "byte");
-                keyWords.Add("07", "case");
-                keyWords.Add("08", "catch");
-                keyWords.Add("09", "char");
-                keyWords.Add("10", "checked");
-                keyWords.Add("11", "class");
-                keyWords.Add("12", "const");
-                keyWords.Add("13", "continue");
-                keyWords.Add("14", "decimal");
-                keyWords.Add("15", "default");
-                keyWords.Add("16", "delegate");
-                keyWords.Add("17", "do");
-                keyWords.Add("18", "double");
-                keyWords.Add("19", "else");
-                keyWords.Add("20", "enum");
-                keyWords.Add("21", "event");
-                keyWords.Add("22", "explicit");
-                keyWords.Add("23", "extern");
-                keyWords.Add("24", "false");
-                keyWords.Add("25", "finally");
-                keyWords.Add("26", "finally");
-                keyWords.Add("27", "float");
-                keyWords.Add("28", "for");
-                keyWords.Add("29", "foreach");
-                keyWords.Add("30", "goto");
-                keyWords.Add("31", "if");
-                keyWords.Add("32", "implicit");
-                keyWords.Add("33", "in");
-                keyWords.Add("34", "int");
-                keyWords.Add("35", "interface");
-                keyWords.Add("36", "internal");
-                keyWords.Add("37", "is");
-                keyWords.Add("38", "lock");
-                keyWords.Add("39", "long");
-                keyWords.Add("40", "namespace");
-                keyWords.Add("41", "new");
-                keyWords.Add("42", "null");
-                keyWords.Add("43", "object");
-                keyWords.Add("44", "operator");
-                keyWords.Add("45", "out");
-                keyWords.Add("46", "override");
-                keyWords.Add("47", "params");
-                keyWords.Add("48", "private");
-                keyWords.Add("49", "protected");
-                keyWords.Add("50", "public");
-                keyWords.Add("51", "readonly");
-                keyWords.Add("52", "ref");
-                keyWords.Add("53", "return");
-                keyWords.Add("54", "sbyte");
-                keyWords.Add("55", "sealed");
-                keyWords.Add("56", "short");
-                keyWords.Add("57", "sizeof");
-                keyWords.Add("58", "stackalloc");
-                keyWords.Add("59", "static");
-                keyWords.Add("60", "string");
-                keyWords.Add("61", "struct");
-                keyWords.Add("62", "switch");
-                keyWords.Add("63", "this");
-                keyWords.Add("64", "throw");
-                keyWords.Add("65", "true");
-                keyWords.Add("66", "try");
-                keyWords.Add("67", "typeof");
-                keyWords.Add("68", "uint");
-                keyWords.Add("69", "ulong");
-                keyWords.Add("70", "unchecked");
-                keyWords.Add("71", "unsafe");
-                keyWords.Add("72", "ushort");
-                keyWords.Add("73", "using");
-                keyWords.Add("74", "using");
-                keyWords.Add("75", "virtual");
-                keyWords.Add("76", "void");
-                keyWords.Add("77", "volatile");
-                keyWords.Add("78", "while");
-                keyWords.Add("79", "nameof");
-                keyWords.Add("80", "join");
-                keyWords.Add("81", "global");
-                keyWords.Add("82", "group");
-                keyWords.Add("83", "value");
-                keyWords.Add("84", "var");
-                keyWords.Add("85", "set");
-
-                Console.Write("Enter input string = ");
-                strInput = Console.ReadLine();
-                // Get a collection of the keys.
-                ICollection key = keyWords.Keys;
-
-                foreach (string k in key)
+                if (table[k].Equals(str))
                 {
-                    if (keyWords[k].Equals(strInput))
-                    {
-                        flag = true;
-                        Console.WriteLine("<" + k + ", " + keyWords[k] + ">");
-                    }
+                    iskeyword = true;
+                    keynumber = k;
+                    break;
                 }
-                if (flag == true)
+            }
+            return iskeyword;
+        }
+
+        // start function to take input and start the process
+        static void start()
+        {
+            FillTable();
+            string continueornot = "y";
+            while (continueornot == "y" || continueornot == "Y")
+            {
+
+                string str;
+                string keynumber = "";
+
+                Console.Write("Enter input string: ");
+                str = Console.ReadLine();
+
+                if (CheckKeyword(str, ref keynumber))
                 {
+
+                    Console.WriteLine("<" + keynumber + ", " + table[keynumber] + ">");
                     Console.WriteLine("It is a Keyword!");
                     Console.WriteLine("********************************************");
                 }
@@ -125,7 +62,98 @@ namespace Keyword_Recoginition_Using_Hash_Table
                     Console.WriteLine("It is an Identifier or Operator or Symbol!");
                     Console.WriteLine("*********************************************");
                 }
+                Console.WriteLine("Press 'y' or 'Y' to continue and any other key to exit.");
+                continueornot = Console.ReadLine();
             }
+        }
+        // function to fill hashtable
+        static void FillTable()
+        {
+            table.Add("01", "while");
+            table.Add("02", "nameof");
+            table.Add("03", "join");
+            table.Add("04", "global");
+            table.Add("05", "group");
+            table.Add("06", "value");
+            table.Add("07", "var");
+            table.Add("08", "set");
+            table.Add("09", "decimal");
+            table.Add("10", "default");
+            table.Add("11", "delegate");
+            table.Add("12", "do");
+            table.Add("13", "double");
+            table.Add("14", "else");
+            table.Add("15", "enum");
+            table.Add("16", "event");
+            table.Add("17", "explicit");
+            table.Add("18", "abstract");
+            table.Add("19", "as");
+            table.Add("20", "base");
+            table.Add("21", "bool");
+            table.Add("22", "break");
+            table.Add("23", "byte");
+            table.Add("24", "case");
+            table.Add("25", "catch");
+            table.Add("26", "char");
+            table.Add("27", "checked");
+            table.Add("28", "class");
+            table.Add("29", "const");
+            table.Add("30", "continue");
+            table.Add("31", "extern");
+            table.Add("32", "false");
+            table.Add("33", "finally");
+            table.Add("34", "finally");
+            table.Add("35", "float");
+            table.Add("36", "for");
+            table.Add("37", "foreach");
+            table.Add("38", "out");
+            table.Add("39", "is");
+            table.Add("40", "lock");
+            table.Add("41", "long");
+            table.Add("42", "namespace");
+            table.Add("43", "new");
+            table.Add("44", "null");
+            table.Add("45", "object");
+            table.Add("46", "operator");
+            table.Add("47", "override");
+            table.Add("48", "params");
+            table.Add("49", "private");
+            table.Add("50", "protected");
+            table.Add("51", "public");
+            table.Add("52", "goto");
+            table.Add("53", "if");
+            table.Add("54", "implicit");
+            table.Add("55", "in");
+            table.Add("56", "int");
+            table.Add("57", "interface");
+            table.Add("58", "internal");
+            table.Add("59", "readonly");
+            table.Add("60", "ref");
+            table.Add("61", "return");
+            table.Add("62", "sbyte");
+            table.Add("63", "sealed");
+            table.Add("64", "short");
+            table.Add("65", "throw");
+            table.Add("66", "true");
+            table.Add("67", "try");
+            table.Add("68", "typeof");
+            table.Add("69", "uint");
+            table.Add("70", "ulong");
+            table.Add("71", "unchecked");
+            table.Add("72", "unsafe");
+            table.Add("73", "ushort");
+            table.Add("74", "using");
+            table.Add("75", "sizeof");
+            table.Add("76", "stackalloc");
+            table.Add("77", "static");
+            table.Add("78", "string");
+            table.Add("79", "struct");
+            table.Add("80", "switch");
+            table.Add("81", "this");
+            table.Add("82", "virtual");
+            table.Add("83", "void");
+            table.Add("84", "volatile");
+
         }
     }
 }
